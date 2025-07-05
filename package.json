@@ -1,0 +1,11 @@
+{
+  "name": "ai.ailia.ailia_tracker",
+  "version": "1.0.0",
+  "displayName": "ailia Tracker",
+  "description": "ailia Tracker for Unity Engine",
+  "author": {
+    "name": "ailia Inc.",
+    "email": "contact@ailia.ai",
+    "url": "https://ailia.ai/"
+  }
+}
