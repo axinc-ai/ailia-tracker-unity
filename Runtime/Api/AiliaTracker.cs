@@ -57,20 +57,20 @@ public class AiliaTracker
     */
     public const int AILIA_TRACKER_OBJECT_VERSION = (1);
 
-    /****************************************************************
-    * フラグ定義
-    **/
-
-    /**
+   /**
     * \~japanese
-    * @def AILIA_TRACKER_FLAG_NONE
-    * @brief フラグを設定しません
+    * @def AILIA_TRACKER_SETTINGS_VERSION
+    * @brief Settings version
     *
     * \~english
-    * @def AILIA_TRACKER_FLAG_NONE
-    * @brief Default flag
+    * @def AILIA_TRACKER_SETTINGS_VERSION
+    * @brief Settings version
     */
-    public const int AILIA_TRACKER_FLAG_NONE = (0);
+    public const int AILIA_TRACKER_SETTINGS_VERSION = (1);
+
+    /****************************************************************
+    * 構造体定義
+    **/
 
     [StructLayout(LayoutKind.Sequential)]
     public class AILIATrackerObject
@@ -133,29 +133,76 @@ public class AiliaTracker
         public float h;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    public class AILIATrackerSettings
+    {
+        /**
+        * \~japanese
+        * Score threshould to filter the result default=0.1
+        *
+        * \~english
+        * Score threshould to filter the result default=0.1
+        */
+        public float score_threshold;
+        /**
+        * \~japanese
+        * NMS threshould default=0.7
+        *
+        * \~english
+        * NMS threshould default=0.7
+        */
+        public float nms_threshold;
+        /**
+        * \~japanese
+        * tracking confidence threshold default=0.5
+        *
+        * \~english
+        * tracking confidence threshold default=0.5
+        */
+        public float track_threshold;
+        /**
+        * \~japanese
+        * the frames for keep lost tracks default=30
+        *
+        * \~english
+        * the frames for keep lost tracks default=30
+        */
+        public int track_buffer;
+        /**
+        * \~japanese
+        * matching threshold for tracking default=0.8
+        *
+        * \~english
+        * matching threshold for tracking default=0.8
+        */
+        public float match_threshold;
+    }
+
     /**
-     * \~japanese
-     * @brief ネットワークオブジェクトを作成します。
-     * @param net ネットワークオブジェクトポインタへのポインタ
-     * @param algorithm AILIA_TRAÇKER_ALGORITHM_*
-     * @param flag AILIA_TRACKER_FLAG_*の論理和
-     * @return
-     *   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-     * @details
-     *   ネットワークオブジェクトを作成します。
-     *
-     * \~english
-     * @brief Creates a network instance.
-     * @param net A pointer to the network instance pointer
-     * @param algorithm AILIA_TRAÇKER_ALGORITHM_*
-     * @param flag OR of AILIA_TRACKER_FLAG_*
-     * @return
-     *   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-     * @details
-     *   Creates a network instance.
-     */
+    * \~japanese
+    * @brief ネットワークオブジェクトを作成します。
+    * @param net ネットワークオブジェクトポインタへのポインタ
+    * @param algorithm AILIA_TRAÇKER_ALGORITHM_*
+    * @param settings AILIATrackerSettings
+    * @param version AILIA_TRACKER_SETTINGS_VERSION
+    * @return
+    *   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+    * @details
+    *   ネットワークオブジェクトを作成します。
+    *
+    * \~english
+    * @brief Creates a network instance.
+    * @param net A pointer to the network instance pointer
+    * @param algorithm AILIA_TRAÇKER_ALGORITHM_*
+    * @param settings AILIATrackerSettings
+    * @param version AILIA_TRACKER_SETTINGS_VERSION
+    * @return
+    *   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+    * @details
+    *   Creates a network instance.
+    */
     [DllImport(AiliaTracker.LIBRARY_NAME)]
-    public static extern int ailiaTrackerCreate(ref IntPtr net, int algorithm, int flags);
+    public static extern int ailiaTrackerCreate(ref IntPtr net, int algorithm, AILIATrackerSettings settings, int version);
 
     /**
     * \~japanese
@@ -179,8 +226,6 @@ public class AiliaTracker
      * \~japanese
      * @brief トラッキングを行います。
      * @param net ネットワークオブジェクトポインタ
-     * @param threshold スコアのしきい値（デフォルト値 0.1）
-     * @param iou NMSのiouのしきい値（デフォルト値 0.7）
      * @return
      *   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
      * @details
@@ -189,15 +234,13 @@ public class AiliaTracker
      * \~english
      * @brief Perform tracking
      * @param net A network instance pointer
-     * @param threshold Score threshold (default value 0.1)
-     * @param iou IoU threshold for NMS (default value 0.7)
      * @return
      *   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
      * @details
      *   Get the recognition result with ailiaTrackerGetObject API.
      */
     [DllImport(AiliaTracker.LIBRARY_NAME)]
-    public static extern int ailiaTrackerCompute(IntPtr net, float threshold, float iou);
+    public static extern int ailiaTrackerCompute(IntPtr net);
 
     /**
      * \~japanese

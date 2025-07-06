@@ -25,17 +25,10 @@ namespace ailiaTracker{
 public class AiliaTrackerModel {
     private IntPtr ailia_tracker = IntPtr.Zero;
 
-    int algorithm = AiliaTracker.AILIA_TRACKER_ALGORITHM_BYTE_TRACK;
-
     bool logging = true;
 
-    public bool Settings(int set_algorithm){
-        algorithm = set_algorithm;
-        return true;
-    }
-
-    public bool Create(){
-        int status = AiliaTracker.ailiaTrackerCreate(ref ailia_tracker, algorithm, AiliaTracker.AILIA_TRACKER_FLAG_NONE);
+    public bool Create(int algorithm, AiliaTracker.AILIATrackerSettings settings){
+        int status = AiliaTracker.ailiaTrackerCreate(ref ailia_tracker, algorithm, settings, AiliaTracker.AILIA_TRACKER_SETTINGS_VERSION);
 
         if(status!=Ailia.AILIA_STATUS_SUCCESS){
             if(logging){
@@ -47,7 +40,7 @@ public class AiliaTrackerModel {
         return true;
     }
     
-    public List<AiliaTracker.AILIATrackerObject> Compute(List<AiliaDetector.AILIADetectorObject> ailiaDetectorObjectList, float threshold, float iou){
+    public List<AiliaTracker.AILIATrackerObject> Compute(List<AiliaDetector.AILIADetectorObject> ailiaDetectorObjectList){
         List<AiliaTracker.AILIATrackerObject> ailiaTrackerObject = new List<AiliaTracker.AILIATrackerObject>();
 
         int status = 0;
@@ -67,7 +60,7 @@ public class AiliaTrackerModel {
             }
         }
 
-        status = AiliaTracker.ailiaTrackerCompute(ailia_tracker, threshold, iou);
+        status = AiliaTracker.ailiaTrackerCompute(ailia_tracker);
         if(status != Ailia.AILIA_STATUS_SUCCESS){
             if(logging){
                 Debug.Log("ailiaTrackerCompute failed"+status);
