@@ -83,8 +83,6 @@ public class AiliaTrackerModel {
             return null;
         }
 
-        Debug.Log("onlineSize " + onlineSize);
-
         for (int i = 0; i < onlineSize; i++){
             AiliaTracker.AILIATrackerObject obj = new AiliaTracker.AILIATrackerObject();
             status = AiliaTracker.ailiaTrackerGetObject(ailia_tracker, obj, (uint)i, AiliaTracker.AILIA_TRACKER_OBJECT_VERSION);
