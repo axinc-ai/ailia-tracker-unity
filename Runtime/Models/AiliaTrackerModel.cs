@@ -3,13 +3,13 @@
 * @file
 * @brief AILIA Unity Plugin Tracker Model Class
 * @author AXELL Corporation
-* @date  November 22, 2021
+* @date  July 6, 2025
 * 
 * \~english
 * @file
 * @brief AILIA Unity Plugin Tracker Model Class
 * @author AXELL Corporation
-* @date  November 22, 2021
+* @date  July 6, 2025
 */
 
 using System.Collections;
@@ -20,6 +20,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 using ailia;
+namespace ailiaTracker{
 
 public class AiliaTrackerModel {
     private IntPtr ailia_tracker = IntPtr.Zero;
@@ -146,3 +147,4 @@ public class AiliaTrackerModel {
         Dispose(false);
     }
 }
+} // ailiaTracker

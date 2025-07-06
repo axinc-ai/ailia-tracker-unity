@@ -3,13 +3,13 @@
 * @file
 * @brief AILIA Unity Plugin Tracker API
 * @author AXELL Corporation
-* @date  September 07, 2023
+* @date  July 6, 2025
 * 
 * \~english
 * @file
 * @brief AILIA Unity Plugin Tracker API
 * @author AXELL Corporation
-* @date  September 07, 2023
+* @date  July 6, 2025
 */
 
 using UnityEngine;
@@ -19,6 +19,7 @@ using System;
 using System.Runtime.InteropServices;
 
 using ailia;
+namespace ailiaTracker{
 
 public class AiliaTracker
 {
@@ -282,3 +283,4 @@ public class AiliaTracker
     [DllImport(AiliaTracker.LIBRARY_NAME)]
     public static extern IntPtr ailiaTrackerGetErrorDetail(IntPtr net);
 }
+} // ailiaTracker
